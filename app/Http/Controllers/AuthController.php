@@ -24,18 +24,21 @@ class AuthController extends Controller
 
     public function store(StoreUserRequest $request)
     {
-        try {
-            User::create(array_merge(
-                array_map(fn ($field) => [$field => $request->validated($field)], ['name', 'username', 'email']),
-                ['password' => Hash::make($request->validated('password'))]
-            ));
+        // try {
+            $data = new User;
+            $data->name = $request->input('name');
+            $data->email = $request->input('email');
+            $data->role = $request->input('role', 'user');
+            $data->password = $request->input('password');
+            $data['password'] = Hash::make($request->password);
+            $data->save();
 
             Alert::success('Success', 'Register berhasil');
-            return redirect()->route('login');
-        } catch (\Throwable $e) {
-            Alert::error('Error', 'Register gagal');
-            return redirect()->back();
-        }
+            return redirect()->route('auth.index');
+        // } catch (\Throwable $e) {
+        //     Alert::error('Error', 'Register gagal');
+        //     return redirect()->back();
+        // }
     }
 
     public function login(Request $request): RedirectResponse

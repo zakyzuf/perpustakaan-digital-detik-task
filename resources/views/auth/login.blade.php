@@ -8,7 +8,7 @@
                 </div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}" class="needs-validation" novalidate="">
+                    <form method="POST" action="{{ route('auth.login') }}" class="needs-validation" novalidate="">
                         @csrf
                         <div class="form-group">
                             <label for="email">Email</label>
@@ -38,7 +38,7 @@
                 </div>
             </div>
             <div class="mt-5 text-muted text-center">
-                Don't have an account? <a href="{{ route('register') }}">Create One</a>
+                Don't have an account? <a href="{{ route('auth.register') }}">Create One</a>
             </div>
             <div class="simple-footer">
                 Copyright &copy; Stisla 2018

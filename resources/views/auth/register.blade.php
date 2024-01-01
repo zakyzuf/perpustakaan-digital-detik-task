@@ -8,8 +8,13 @@
                 </div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" action="{{ route('auth.store') }}">
                         @csrf
+                        <div class="form-group">
+                            <label for="name">Username</label>
+                            <input id="name" type="text" class="form-control" name="name" autofocus>
+                        </div>
+
                         <div class="form-group">
                             <label for="email">Email</label>
                             <input id="email" type="email" class="form-control" name="email">
