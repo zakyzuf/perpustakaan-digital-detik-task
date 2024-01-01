@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Buku;
+// use App\Http\Requests\Request;
 use App\Http\Requests\StoreBukuRequest;
 use App\Http\Requests\UpdateBukuRequest;
 use App\Models\Kategori;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class BukuController extends Controller
@@ -15,11 +17,21 @@ class BukuController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        $buku = Buku::all();
+        $buku = Buku::with('kategori');
         $kategori = Kategori::all();
+        if ($request->has('kategori')) {
+            $buku = Buku::query();
+            $buku->where('id_kategori', $request->kategori);
+            
+            $buku = $buku->get();
+        }
+        if (!$request->has('kategori') || $request->kategori === null) {
+            $buku = Buku::all();
+        }
+            // return view('dashboard.list_buku', compact('buku', 'kategori'));
         return view('dashboard.list_buku', compact('buku', 'kategori'));
     }
 

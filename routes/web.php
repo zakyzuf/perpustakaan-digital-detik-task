@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BukuController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,3 +27,4 @@ Route::get('/register', [AuthController::class, 'register'])->name('auth.registe
 Route::get('/login', [AuthController::class, 'index'])->name('auth.login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::resource('auth', AuthController::class);
+Route::resource('buku', BukuController::class);
