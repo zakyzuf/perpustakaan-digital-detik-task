@@ -22,6 +22,8 @@ return new class extends Migration
             $table->Integer('jumlah');
             $table->string('file');
             $table->string('cover');
+            $table->string('slug');
+            $table->timestamps();
         });
     }
 

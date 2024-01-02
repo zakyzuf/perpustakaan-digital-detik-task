@@ -12,6 +12,8 @@ class Buku extends Model
 
     protected $table = "buku";
 
+    protected $fillable = ["judul", "id_kategori", "id_user", "deskripsi", "jumlah", "cover", "file", "slug", "created_at", "updated_at"];
+
     public function user(){
         return $this->belongsTo(User::class, 'id_user', 'id');
     }

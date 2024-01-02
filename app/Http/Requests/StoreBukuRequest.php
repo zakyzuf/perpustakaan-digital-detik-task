@@ -25,7 +25,11 @@ class StoreBukuRequest extends FormRequest
     {
         return [
             //
-            
+            'judul' => 'required',
+            'id_kategori' => 'required',
+            'id_user' => 'required',
+            'deskripsi' => 'required',
+            'jumlah' => 'required',
         ];
     }
 }

@@ -8,7 +8,9 @@ use App\Http\Requests\StoreBukuRequest;
 use App\Http\Requests\UpdateBukuRequest;
 use App\Models\Kategori;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class BukuController extends Controller
 {
@@ -57,8 +59,29 @@ class BukuController extends Controller
     {
         //
         $data = $request->validated();
-        $data['slug'] = Str::slug($request->judul_buku);
-        Buku::create($data);
+
+        if ($request->file('cover')) {
+            $data['cover'] = $request->file('cover')->store('public/cover-buku');
+        }
+
+        if ($request->file('PDFfile')) {
+            $pdfFile = $request->file('PDFfile');
+            $randomPart = Str::random(5);
+            $pdfFileName = Str::slug($request->judul) . '-' . $randomPart . '.' . $pdfFile->getClientOriginalExtension();
+            $pdfFile->storeAs('pdf-buku', $pdfFileName, 'public');
+            $data['file'] = 'pdf-buku/' . $pdfFileName; // Set the file path in your data array
+        }
+
+        $randomPart = Str::random(5);
+        $data['slug'] = Str::slug($request->judul) . '-' . $randomPart;
+        if (Buku::create($data)) {
+            Alert::success('Berhasil', 'Data Buku Berhasil Ditambahkan');
+            return redirect(route('buku.index'));
+        } else {
+            Alert::error('Gagal', 'Data Buku Gagal Ditambahkan');
+        }
+
+        return redirect()->route('buku.index');
     }
 
     /**
@@ -67,9 +90,12 @@ class BukuController extends Controller
      * @param  \App\Models\Buku  $buku
      * @return \Illuminate\Http\Response
      */
-    public function show(Buku $buku)
+    public function show($slug)
     {
         //
+        $buku = Buku::where('slug', $slug)->firstOrFail();
+        $kategori = Kategori::all();
+        return view('buku.show', compact('buku', 'kategori'));
     }
 
     /**
@@ -78,9 +104,13 @@ class BukuController extends Controller
      * @param  \App\Models\Buku  $buku
      * @return \Illuminate\Http\Response
      */
-    public function edit(Buku $buku)
+    public function edit($slug)
     {
         //
+        $buku = Buku::where('slug', $slug)->firstOrFail();
+        $kategori = Kategori::all();
+        $selectedCategoryId = $buku->id_kategori;
+        return view('buku.edit', compact('buku', 'kategori', 'selectedCategoryId'));
     }
 
     /**
@@ -90,9 +120,35 @@ class BukuController extends Controller
      * @param  \App\Models\Buku  $buku
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateBukuRequest $request, Buku $buku)
+    public function update(StoreBukuRequest $request, Buku $buku)
     {
         //
+        $data = $request->validated();
+
+        if ($request->file('cover')) {
+            if ($request->oldCover) {
+                Storage::delete($request->oldCover);
+            }
+            $data['cover'] = $request->file('cover')->store('public/cover-buku');
+        }
+
+        if ($request->file('file')) {
+            if ($request->oldFile) {
+                Storage::delete($request->oldFile);
+            }
+            $pdfFile = $request->file('file');
+            $randomPart = Str::random(5);
+            $pdfFileName = Str::slug($request->judul) . '-' . $randomPart . '.' . $pdfFile->getClientOriginalExtension();
+            $pdfFile->storeAs('public/pdf-buku', $pdfFileName);
+            $data['file'] = 'pdf-buku/' . $pdfFileName; // Set the file path in your data array
+        }
+
+        if ($buku->update($data)) {
+            Alert::success('Berhasil', 'Data Buku Berhasil Diubah');
+            return redirect(route('buku.index'));
+        } else {
+            Alert::error('Gagal', 'Data Buku Gagal Diubah');
+        }
     }
 
     /**
@@ -104,5 +160,13 @@ class BukuController extends Controller
     public function destroy(Buku $buku)
     {
         //
+        if ($buku->file) {
+            Storage::delete($buku->file);
+        }
+        if ($buku->cover) {
+            Storage::delete($buku->cover);
+        }
+        $buku->delete();
+        return redirect(route('buku.index'));
     }
 }

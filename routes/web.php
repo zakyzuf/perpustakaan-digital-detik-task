@@ -28,3 +28,5 @@ Route::get('/login', [AuthController::class, 'index'])->name('auth.login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::resource('auth', AuthController::class);
 Route::resource('buku', BukuController::class);
+Route::get('/buku/{slug}', [BukuController::class, 'show'])->name('buku.show.slug');
+Route::get('/buku/edit/{slug}', [BukuController::class, 'edit'])->name('buku.edit.slug');

@@ -20,6 +20,9 @@
                     <input type="submit" class="btn btn-primary" value="Filter">
                 </div>
             </form>
+            <button type="button" class="btn icon icon-left btn-primary">
+            <a href="{{ route('buku.create') }}" style="color: white"><i class="bi bi-envelope-plus"></i> Tambah Buku</a>
+            </button>
             <table class="table table-striped mb-0">
                 <thead>
                     <tr>
@@ -44,11 +47,12 @@
                             @php
                             $imgLink = str_replace('public','storage',$b->cover,);
                             @endphp
-                            <img src="{{asset($imgLink)}}" alt="">
+                            <img src="{{asset($imgLink)}}" alt="" style="max-width: 150px">
                         </td>
                         <td>
                             <div class="flex">
-                                <a href="{{ route('buku.edit', $b->id) }}"><button type="button" class="btn icon icon-left btn-primary m-1">Edit</button></a>
+                                <a href="{{ route('buku.show.slug', $b->slug)}}"><button type="button" class="btn icon icon-left btn-success m-1">Lihat</button></a>
+                                <a href="{{ route('buku.edit.slug', $b->slug) }}"><button type="button" class="btn icon icon-left btn-primary m-1">Edit</button></a>
                                 <form action="{{ route('buku.destroy', $b->id) }}" method="post">
                                     @csrf
                                     @method('delete')
