@@ -2885,7 +2885,7 @@ pre {
 /* 4.2 Section */
 .section {
   position: relative;
-  z-index: 1;
+  /* z-index: 1; */
 }
 .section > *:first-child {
   margin-top: -7px;

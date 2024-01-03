@@ -9,18 +9,20 @@
         </div>
 
         <div class="section-body">
-            <form method="GET" id="formkategori" action="{{ route('buku.index') }}">
-                <select name="kategori" class="form-select">
-                    <option value="">Semua Kategori</option>
-                    @foreach ($kategori as $k)
-                        <option value="{{ $k->id }}" @if ($k->id == Request::get('kategori')) selected @endif>{{ $k->nama_kategori }}</option>
-                    @endforeach
-                </select>
-                <div class="col-md-2 form-group" style="margin-top:25px;">
+            <form method="GET" id="formkategori" action="{{ route('buku.index') }}" class="row">
+                <div class="col-md-4 form-group">
+                    <select name="kategori" class="form-select form-control">
+                        <option value="">Semua Kategori</option>
+                        @foreach ($kategori as $k)
+                            <option value="{{ $k->id }}" @if ($k->id == Request::get('kategori')) selected @endif>{{ $k->nama_kategori }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-2 form-group" style="position:relative">
                     <input type="submit" class="btn btn-primary" value="Filter">
                 </div>
             </form>
-            <button type="button" class="btn icon icon-left btn-primary">
+            <button type="button" class="btn icon icon-left btn-primary" style="margin-bottom: 30px">
             <a href="{{ route('buku.create') }}" style="color: white"><i class="bi bi-envelope-plus"></i> Tambah Buku</a>
             </button>
             <table class="table table-striped mb-0">
@@ -47,16 +49,16 @@
                             @php
                             $imgLink = str_replace('public','storage',$b->cover,);
                             @endphp
-                            <img src="{{asset($imgLink)}}" alt="" style="max-width: 150px">
+                            <img src="{{asset($imgLink)}}" alt="" style="max-width: 90px">
                         </td>
                         <td>
                             <div class="flex">
-                                <a href="{{ route('buku.show.slug', $b->slug)}}"><button type="button" class="btn icon icon-left btn-success m-1">Lihat</button></a>
-                                <a href="{{ route('buku.edit.slug', $b->slug) }}"><button type="button" class="btn icon icon-left btn-primary m-1">Edit</button></a>
+                                <a href="{{ route('buku.show.slug', $b->slug)}}"><button type="button" class="btn icon icon-left btn-success m-1"><i class="bi bi-eye"></i></button></a>
+                                <a href="{{ route('buku.edit.slug', $b->slug) }}"><button type="button" class="btn icon icon-left btn-primary m-1"><i class="bi bi-pencil-square"></i></button></a>
                                 <form action="{{ route('buku.destroy', $b->id) }}" method="post">
                                     @csrf
                                     @method('delete')
-                                    <button type="submit" class="btn icon icon-left btn-danger m-1">Delete</button>
+                                    <button type="submit" class="btn icon icon-left btn-danger m-1"><i class="bi bi-trash"></i></button>
                                 </form>
                             </div>
                         </td>
@@ -66,25 +68,4 @@
             </table>
         </div>
     </section>
-@endsection
-
-
-@section('sidebar')
-    @parent
-    <li class="menu-header">Starter</li>
-    <li class="nav-item dropdown">
-        <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i>
-            <span>Layout</span></a>
-        <ul class="dropdown-menu">
-            <li>
-                <a class="nav-link" href="layout-default.html">Default Layout</a>
-            </li>
-            <li>
-                <a class="nav-link" href="layout-transparent.html">Transparent Sidebar</a>
-            </li>
-            <li>
-                <a class="nav-link" href="layout-top-navigation.html">Top Navigation</a>
-            </li>
-        </ul>
-    </li>
 @endsection
