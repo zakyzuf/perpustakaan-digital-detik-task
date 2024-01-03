@@ -9,6 +9,7 @@
         </div>
 
         <div class="section-body">
+            @auth
             <form method="GET" id="formkategori" action="{{ route('buku.index') }}" class="row">
                 <div class="col-md-4 form-group">
                     <select name="kategori" class="form-select form-control">
@@ -66,6 +67,11 @@
                     @endforeach
                 </tbody>
             </table>
+            @endauth
         </div>
+        @guest
+        <h1 style="text-align: center">Login or create account to save your books</h1>
+        @endguest
+
     </section>
 @endsection

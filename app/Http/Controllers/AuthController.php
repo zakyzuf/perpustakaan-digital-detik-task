@@ -51,7 +51,7 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             Alert::toast('Selamat datang ' . auth()->user()->name, 'success');
-            return redirect()->intended('home');
+            return redirect()->route('home');
         }
 
         Alert::toast('Email atau password salah', 'error');
@@ -67,6 +67,6 @@ class AuthController extends Controller
         request()->session()->invalidate();
         request()->session()->regenerateToken();
         Alert::toast('Anda berhasil logout', 'success');
-        return redirect()->route('login');
+        return redirect()->route('auth.login');
     }
 }

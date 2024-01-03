@@ -16,13 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('dashboard.home');
-});
-
-Route::get('/baru', function () {
-    return view('dashboard.baru');
-});
+Route::get('/', [BukuController::class, 'index'])->name('home');
 
 Route::get('/register', [AuthController::class, 'register'])->name('auth.register');
 Route::get('/login', [AuthController::class, 'index'])->name('auth.login');
@@ -34,4 +28,4 @@ Route::get('/buku/{slug}', [BukuController::class, 'show'])->name('buku.show.slu
 Route::get('/buku/edit/{slug}', [BukuController::class, 'edit'])->name('buku.edit.slug');
 
 
-Route::resource('kategori', KategoriController::class);
+Route::resource('kategori', KategoriController::class)->middleware('admin');

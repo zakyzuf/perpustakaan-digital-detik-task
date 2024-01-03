@@ -28,9 +28,10 @@ class BukuPolicy
      * @param  \App\Models\Buku  $buku
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Buku $buku)
+    public function view(User $user, $slug)
     {
         //
+        $buku = Buku::where('slug', $slug)->first();
         return $user->id === $buku->user_id || $user->isAdmin();
     }
 
@@ -52,9 +53,10 @@ class BukuPolicy
      * @param  \App\Models\Buku  $buku
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Buku $buku)
+    public function update(User $user, $slug)
     {
         //
+        $buku = Buku::where('slug', $slug)->first();
         return $user->id === $buku->user_id || $user->isAdmin();
     }
 

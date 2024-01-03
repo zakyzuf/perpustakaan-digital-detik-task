@@ -8,6 +8,7 @@ use App\Http\Requests\StoreBukuRequest;
 use App\Http\Requests\UpdateBukuRequest;
 use App\Models\Kategori;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -24,16 +25,19 @@ class BukuController extends Controller
         //
         $buku = Buku::with('kategori');
         $kategori = Kategori::all();
-        if ($request->has('kategori')) {
-            $buku = Buku::query();
-            $buku->where('id_kategori', $request->kategori);
-            
+
+        $isAdmin = (auth()->user() && auth()->user()->role == 'admin');
+
+        if ($isAdmin) {
             $buku = $buku->get();
+        } else {
+            $buku = $buku->where('id_user', auth()->user()->id)->get();
         }
-        if (!$request->has('kategori') || $request->kategori === null) {
-            $buku = Buku::all();
+
+        if ($request->has('kategori')) {
+            $buku = $buku->where('id_kategori', $request->kategori);
         }
-            // return view('dashboard.list_buku', compact('buku', 'kategori'));
+        
         return view('dashboard.list_buku', compact('buku', 'kategori'));
     }
 
@@ -93,9 +97,15 @@ class BukuController extends Controller
     public function show($slug)
     {
         //
-        $buku = Buku::where('slug', $slug)->firstOrFail();
-        $kategori = Kategori::all();
-        return view('buku.show', compact('buku', 'kategori'));
+        if (Gate::allows('view-book', $slug)) {
+            $buku = Buku::where('slug', $slug)->firstOrFail();
+            $kategori = Kategori::all();
+            return view('buku.show', compact('buku', 'kategori'));
+            return response()->json(['message' => 'Buku berhasil diperbarui.']);
+        } else {
+            return response()->json(['message' => 'Akses ditolak. Anda tidak memiliki izin.'], 403);
+        }
+        
     }
 
     /**
@@ -107,10 +117,15 @@ class BukuController extends Controller
     public function edit($slug)
     {
         //
-        $buku = Buku::where('slug', $slug)->firstOrFail();
-        $kategori = Kategori::all();
-        $selectedCategoryId = $buku->id_kategori;
-        return view('buku.edit', compact('buku', 'kategori', 'selectedCategoryId'));
+        if (Gate::allows('update-book', $slug)) {
+            $buku = Buku::where('slug', $slug)->firstOrFail();
+            $kategori = Kategori::all();
+            $selectedCategoryId = $buku->id_kategori;
+            return view('buku.edit', compact('buku', 'kategori', 'selectedCategoryId'));
+            return response()->json(['message' => 'Buku berhasil diperbarui.']);
+        } else {
+            return response()->json(['message' => 'Akses ditolak. Anda tidak memiliki izin.'], 403);
+        }
     }
 
     /**
@@ -160,13 +175,18 @@ class BukuController extends Controller
     public function destroy(Buku $buku)
     {
         //
-        if ($buku->file) {
-            Storage::delete($buku->file);
+        if (Gate::allows('delete-book', $buku)) {
+            if ($buku->file) {
+                Storage::delete($buku->file);
+            }
+            if ($buku->cover) {
+                Storage::delete($buku->cover);
+            }
+            $buku->delete();
+            return redirect(route('buku.index'));
+            return response()->json(['message' => 'Buku berhasil diperbarui.']);
+        } else {
+            return response()->json(['message' => 'Akses ditolak. Anda tidak memiliki izin.'], 403);
         }
-        if ($buku->cover) {
-            Storage::delete($buku->cover);
-        }
-        $buku->delete();
-        return redirect(route('buku.index'));
     }
 }
