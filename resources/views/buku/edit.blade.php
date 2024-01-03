@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Buku')
+@section('title', 'Edit Buku')
 
 @section('content')
     <section class="section">
@@ -54,10 +54,9 @@
                     <input type="hidden" name="oldCover" value="{{ $buku->cover }}">
                     @if ($buku->cover)
                         @php
-                        $imgLink = str_replace('public', 'storage', $buku->cover);
+                            $imgLink = str_replace('public', 'storage', $buku->cover);
                         @endphp
-                        <img src="{{ asset($imgLink) }}"
-                            class="img-preview img-fluid mb-3 col-sm-5 d-block">
+                        <img src="{{ asset($imgLink) }}" class="img-preview img-fluid mb-3 col-sm-5 d-block">
                     @else
                         <img class="img-preview img-fluid mb-3 col-sm-5">
                     @endif
@@ -96,25 +95,4 @@
         }
     </script>
 
-@endsection
-
-
-@section('sidebar')
-    @parent
-    <li class="menu-header">Starter</li>
-    <li class="nav-item dropdown">
-        <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i>
-            <span>Layout</span></a>
-        <ul class="dropdown-menu">
-            <li>
-                <a class="nav-link" href="layout-default.html">Default Layout</a>
-            </li>
-            <li>
-                <a class="nav-link" href="layout-transparent.html">Transparent Sidebar</a>
-            </li>
-            <li>
-                <a class="nav-link" href="layout-top-navigation.html">Top Navigation</a>
-            </li>
-        </ul>
-    </li>
 @endsection

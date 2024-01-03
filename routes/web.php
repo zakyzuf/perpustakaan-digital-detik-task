@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BukuController;
+use App\Http\Controllers\KategoriController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,3 +31,6 @@ Route::resource('auth', AuthController::class);
 Route::resource('buku', BukuController::class);
 Route::get('/buku/{slug}', [BukuController::class, 'show'])->name('buku.show.slug');
 Route::get('/buku/edit/{slug}', [BukuController::class, 'edit'])->name('buku.edit.slug');
+
+
+Route::resource('kategori', KategoriController::class);
