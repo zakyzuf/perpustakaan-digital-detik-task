@@ -18,7 +18,7 @@
             <!-- Create Form Modal -->
             <div class="modal fade" id="createFormModal" tabindex="-1" role="dialog" aria-labelledby="kategoriCreateModal"
                 aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document" style="z-index: 1050;">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document" >
                     <div class="modal-content">
                         <div class="modal-header">
                             <h4 class="modal-title" id="kategoriCreateModal">Buat Kategori </h4>
@@ -26,7 +26,7 @@
                                 <i data-feather="x"></i>
                             </button>
                         </div>
-                        <form method="POST" action="{{ route('kategori.store') }}">
+                        <form method="POST" action="{{ route('kategori.store') }}" id="create-form">
                             @csrf
                             <div class="modal-body">
                                 <div class="form-group">
@@ -40,7 +40,7 @@
                                     <i class="bx bx-x d-block d-sm-none"></i>
                                     <span class="d-none d-sm-block">Close</span>
                                 </button>
-                                <button type="submit" class="btn btn-primary ml-1" data-dismiss="modal">
+                                <button type="button" class="btn btn-primary ml-1" data-dismiss="modal" onclick="create()">
                                     <i class="bx bx-check d-block d-sm-none"></i>
                                     <span class="d-none d-sm-block">Submit</span>
                                 </button>
@@ -131,6 +131,15 @@
     </section>
 
     <script>
+        function create() {
+            document.getElementById('create-form').submit();
+            Swal.fire(
+                        'Ditambahkan!',
+                        'Kategori telah ditambahkan.',
+                        'success'
+                    )
+        }
+
         function confirmDelete(id) {
             Swal.fire({
                 title: 'Anda yakin?',
@@ -147,7 +156,7 @@
                     document.getElementById('delete-form-' + id).submit();
                     Swal.fire(
                         'Dihapus!',
-                        'File Anda telah dihapus.',
+                        'Kategori telah dihapus.',
                         'success'
                     )
                 }
@@ -170,7 +179,7 @@
                     document.getElementById('edit-form-' + id).submit();
                     Swal.fire(
                         'Diupdate!',
-                        'File Anda telah diupdate.',
+                        'Kategori telah diupdate.',
                         'success'
                     )
                 }

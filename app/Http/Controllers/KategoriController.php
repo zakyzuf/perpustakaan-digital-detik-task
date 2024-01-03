@@ -40,7 +40,6 @@ class KategoriController extends Controller
     {
         //
         $data = $request->validated();
-        dd($data);
         Kategori::create($data);
         return redirect()->route('kategori.index');
     }
