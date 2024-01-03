@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\BukuExport;
 use App\Models\Buku;
 // use App\Http\Requests\Request;
 use App\Http\Requests\StoreBukuRequest;
@@ -11,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class BukuController extends Controller
@@ -23,15 +25,17 @@ class BukuController extends Controller
     public function index(Request $request)
     {
         //
-        $buku = Buku::with('kategori');
+        $buku = Buku::with('kategori')->with('user');
         $kategori = Kategori::all();
 
         $isAdmin = (auth()->user() && auth()->user()->role == 'admin');
 
         if ($isAdmin) {
             $buku = $buku->get();
-        } else {
+        } else if (auth()->user()) {
             $buku = $buku->where('id_user', auth()->user()->id)->get();
+        } else {
+            return view('dashboard.list_buku');
         }
 
         if ($request->has('kategori')) {
@@ -188,5 +192,10 @@ class BukuController extends Controller
         } else {
             return response()->json(['message' => 'Akses ditolak. Anda tidak memiliki izin.'], 403);
         }
+    }
+
+    public function export()
+    {
+        return Excel::download(new BukuExport, 'buku.xlsx');
     }
 }

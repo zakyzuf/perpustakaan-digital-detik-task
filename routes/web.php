@@ -26,6 +26,7 @@ Route::resource('auth', AuthController::class);
 Route::resource('buku', BukuController::class);
 Route::get('/buku/{slug}', [BukuController::class, 'show'])->name('buku.show.slug');
 Route::get('/buku/edit/{slug}', [BukuController::class, 'edit'])->name('buku.edit.slug');
+Route::get('/export-buku', [BukuController::class, 'export'])->name('export');
 
 
 Route::resource('kategori', KategoriController::class)->middleware('admin');

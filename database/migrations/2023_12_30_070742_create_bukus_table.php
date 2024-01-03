@@ -21,7 +21,11 @@ return new class extends Migration
                 ->references('id')
                 ->on('kategori')
                 ->onDelete('cascade');
-            $table->string('id_user');
+            $table->unsignedBigInteger('id_user');
+            $table->foreign('id_user')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
             $table->longText('deskripsi');
             $table->Integer('jumlah');
             $table->string('file');

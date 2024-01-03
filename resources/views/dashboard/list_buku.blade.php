@@ -26,12 +26,18 @@
             <button type="button" class="btn icon icon-left btn-primary" style="margin-bottom: 30px">
             <a href="{{ route('buku.create') }}" style="color: white"><i class="bi bi-envelope-plus"></i> Tambah Buku</a>
             </button>
+            <button type="button" class="btn icon icon-left btn-success" style="margin-bottom: 30px">
+            <a href="{{ route('export') }}" style="color: white">Export Buku</a>
+            </button>
             <table class="table table-striped mb-0">
                 <thead>
                     <tr>
                         <th>No</th>
                         <th>Judul Buku</th>
                         <th>Kategori</th>
+                        @if (auth()->user()->isAdmin())
+                        <th>Username</th>
+                        @endif
                         <th>Deskripsi</th>
                         <th>Jumlah</th>
                         <th>Cover Buku</th>
@@ -44,6 +50,9 @@
                         <td>{{ $index + 1 }}</td>
                         <td>{{ $b->judul }}</td>
                         <td>{{ $b->kategori->nama_kategori }}</td>
+                        @if (auth()->user()->isAdmin())
+                        <td>{{ $b->user->name }}</td>
+                        @endif
                         <td>{{ $b->deskripsi }}</td>
                         <td>{{ $b->jumlah }}</td>
                         <td>
