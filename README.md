@@ -1,10 +1,12 @@
+## About This Project
 This project is an assignment from detik.com which is intended to register for internships in the MSIB Batch 6 program. This assignment has the following conditions:
-"Skill Test Assignment Backend Developer of CTARSA Independent Campus Internship:
+</br>
+"Skill Test Assignment Backend Developer of CTARSA Independent Campus Internship:</br>
 
-Requirements: PHP Native or Framework (Codeigniter/Laravel), Database (MySQL), JavaScript, HTML, CSS Native or Framework
+Requirements: PHP Native or Framework (Codeigniter/Laravel), Database (MySQL), JavaScript, HTML, CSS Native or Framework</br>
 
-Project Title: Website-based Digital Library
-Test: Create a CMS (Content Management System) for managing content
+Project Title: Website-based Digital Library</br>
+Test: Create a CMS (Content Management System) for managing content </br>
 a. Login (Admin and User) ✅ </br>
 b. Register ✅ </br>
 c. Register/Book Data List ✅ </br>
@@ -21,6 +23,7 @@ Final Format: Project and Database are collected in .RAR or .ZIP format in Googl
 
 Here I use the Laravel framework and the stisla template. </br>
 
+## About Laravel
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
@@ -30,7 +33,6 @@ Here I use the Laravel framework and the stisla template. </br>
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
