@@ -46,7 +46,7 @@ class BukuController extends Controller
     {
         //
         $kategori = Kategori::all();
-        return view('form.tambah_buku', compact('kategori'));
+        return view('buku.tambah_buku', compact('kategori'));
     }
 
     /**

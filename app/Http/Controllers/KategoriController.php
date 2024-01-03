@@ -16,6 +16,8 @@ class KategoriController extends Controller
     public function index()
     {
         //
+        $kategori = Kategori::all();
+        return view('dashboard.list_kategori', compact('kategori'));
     }
 
     /**
@@ -37,6 +39,9 @@ class KategoriController extends Controller
     public function store(StoreKategoriRequest $request)
     {
         //
+        $data = $request->validated();
+        Kategori::create($data);
+        return redirect()->route('kategori.index');
     }
 
     /**
@@ -68,9 +73,12 @@ class KategoriController extends Controller
      * @param  \App\Models\Kategori  $kategori
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateKategoriRequest $request, Kategori $kategori)
+    public function update(StoreKategoriRequest $request, Kategori $kategori)
     {
         //
+        $data = $request->validated();
+        $kategori->update($data);
+        return redirect()->route('kategori.index');
     }
 
     /**
@@ -82,5 +90,7 @@ class KategoriController extends Controller
     public function destroy(Kategori $kategori)
     {
         //
+        $kategori->delete();
+        return redirect()->route('kategori.index');
     }
 }
