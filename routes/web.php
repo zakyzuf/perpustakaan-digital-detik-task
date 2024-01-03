@@ -26,6 +26,7 @@ Route::get('/baru', function () {
 Route::get('/register', [AuthController::class, 'register'])->name('auth.register');
 Route::get('/login', [AuthController::class, 'index'])->name('auth.login');
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 Route::resource('auth', AuthController::class);
 Route::resource('buku', BukuController::class);
 Route::get('/buku/{slug}', [BukuController::class, 'show'])->name('buku.show.slug');
